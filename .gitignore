@@ -1,0 +1,12 @@
+*~
+*.mex*
+*.mdl.*
+*.slx.*
+/slprj/*
+*.asv
+
+/deps
+/build*/
+/local.cmake
+*.dll
+
