@@ -189,6 +189,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 		}
 		/* device is not used */
 		else {
+#ifdef LIBHACKRF_HAVE_DEVICE_LIST
 			hackrf_device_list_t  *list = hackrf_device_list();
 
 			if (list->devicecount < 1) {
@@ -202,7 +203,14 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 				mexErrMsgTxt(errmsg);
 				return;
 			}
-
+#else
+			ret = hackrf_open(&_devices[device_index]);
+			if (ret != HACKRF_SUCCESS) {
+				sprintf(errmsg, "hackrf_open() failed: %s (%d)\n", hackrf_error_name(ret), ret);
+				mexErrMsgTxt(errmsg);
+				return;
+			}
+#endif
 			ret = hackrf_close(_devices[device_index]);
 			if (ret != HACKRF_SUCCESS){
 				sprintf(errmsg, "hackrf_close() failed: %s (%d)\n", hackrf_error_name(ret), ret);
@@ -253,6 +261,8 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 			mexErrMsgTxt(errmsg);
 		}
 
+#ifdef LIBHACKRF_HAVE_DEVICE_LIST
+
 		hackrf_device_list_t  *list = hackrf_device_list();
 
 		ret = hackrf_device_list_open(list, device_index, &_devices[device_index]);
@@ -261,16 +271,14 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 			mexErrMsgTxt(errmsg);
 			return;
 		}
-
-		if (_devices[device_index] == NULL) {
-
-			ret = hackrf_open(&_devices[device_index]);
-			if (ret != HACKRF_SUCCESS){
-				sprintf(errmsg, "hackrf_open() failed: %s (%d)\n", hackrf_error_name(ret), ret);
-				mexErrMsgTxt(errmsg);
-				return;
-			}
+#else
+		ret = hackrf_open(&_devices[device_index]);
+		if (ret != HACKRF_SUCCESS) {
+			sprintf(errmsg, "hackrf_open() failed: %s (%d)\n", hackrf_error_name(ret), ret);
+			mexErrMsgTxt(errmsg);
+			return;
 		}
+#endif
 
 		/* set sample rate */
 		int sample_rate = (int)mxGetScalar(SAMPLE_RATE);

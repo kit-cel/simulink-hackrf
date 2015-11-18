@@ -87,7 +87,7 @@ fprintf('\nBuilding target ''%s'':\n', 'hackrf_sink.c');
 mex(options{:},options_pthread{:}, 'src/hackrf_sink.c', 'src/common.c')
 
 fprintf('\nBuilding target ''%s'':\n', 'hackrf_dev.c');
-mex(options{:},options_pthread{:}, 'src/hackrf_dev.c', 'src/common.c')
+mex(options{:},'src/hackrf_dev.c')
 
 warning('on', 'MATLAB:mex:GccVersion_link');
 
