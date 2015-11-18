@@ -44,7 +44,8 @@ void sample_buffer_reset(SampleBuffer* sbuf)
 
 void sample_buffer_free(SampleBuffer* sbuf)
 {
-    int i = 0; for (; i < NUMBER_OF_BUFFERS; ++i)
+    int i = 0;
+    for (; i < NUMBER_OF_BUFFERS; ++i)
         if (sbuf->buffers[i]) free(sbuf->buffers[i]);
     pthread_mutex_destroy(&sbuf->mutex);
     pthread_cond_destroy(&sbuf->cond_var);

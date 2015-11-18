@@ -30,28 +30,30 @@
 void mexFunction(int nlhs, mxArray *plhs[], int nrhs,
         const mxArray *prhs[]) 
 {
+    hackrf_device *device;
+    int ret;
+    enum hackrf_board_id board_id = BOARD_ID_INVALID;
+    char version[255 + 1];
+    read_partid_serialno_t data;
+
     mexPrintf("Simulink-HackRF version %s\n\n", STR(SIMULINK_HACKRF_VERSION));
 
     /* init hackrf and open device */
     Hackrf_assert(hackrf_init(), "Failed to init HackRF API");
-    
-    hackrf_device *device;
-    int ret = hackrf_open(&device);
+
+    ret = hackrf_open(&device);
     Hackrf_assert(ret, (ret == HACKRF_ERROR_NOT_FOUND) ?
                        "No HackRF device found" : "Failed to open HackRF");
 
     /* read hackrf board id and version */
-    enum hackrf_board_id board_id = BOARD_ID_INVALID;
     ret = hackrf_board_id_read(device, (uint8_t*) &board_id);
     Hackrf_assert(ret, "Failed to get HackRF board id");
-    char version[255 + 1];
     ret = hackrf_version_string_read(device, &version[0], 255);
     Hackrf_assert(ret, "Failed to read version string");
     mexPrintf("Found %s device with firmware %s\n",
               hackrf_board_id_name(board_id), version);
 
     /* read part id and serial number */
-    read_partid_serialno_t data;
     ret = hackrf_board_partid_serialno_read(device, &data);
     Hackrf_assert(ret, "Failed to read part ID number and serial number");
     mexPrintf("  Part ID Number: 0x%08x 0x%08x\n",
