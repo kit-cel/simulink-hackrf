@@ -29,11 +29,22 @@ if ispc
     HACKRF_INC_DIR = fullfile(pwd, 'deps', 'include', 'libhackrf');
     % this should point to the directory of libhackrf.a
     HACKRF_LIB_DIR = fullfile(pwd, 'deps', 'bin');
+    
+	% this should point to the directory of pthread.h 
+	PTHREAD_INC_DIR = fullfile(pwd,'deps','pthread','include'); 
+	% this should point to the directory of pthreadVC.lib 
+	PTHREAD_LIB_DIR = fullfile(pwd,'deps','pthread','lib','x64'); 
+
         
     options = { ...
         ['-I' pwd]; ['-I' HACKRF_INC_DIR]; ...
         ['-L' HACKRF_LIB_DIR]; '-lhackrf' ...
     };
+    options_pthread = { ... 
+         ['-I' PTHREAD_INC_DIR]; ...
+         ['-L' PTHREAD_LIB_DIR]; ...
+         ['-l' 'pthread'] ... 
+    }; 
 
 elseif isunix
     % this should point to the directory of hackrf.h
@@ -42,6 +53,10 @@ elseif isunix
     options = { ...
         ['-I' HACKRF_INC_DIR]; ['-l' 'hackrf'] ...
     };
+    options_pthread = { ... 
+            ['-l' 'pthread'] ... 
+    }; 
+
 
 else
     error('Platform not supported');
@@ -66,10 +81,13 @@ fprintf('\nBuilding target ''%s'':\n', 'hackrf_find_devices.c');
 mex(options{:}, 'src/hackrf_find_devices.c')
 
 fprintf('\nBuilding target ''%s'':\n', 'hackrf_source.c');
-mex(options{:}, 'src/hackrf_source.c', 'src/common.c')
+mex(options{:},options_pthread{:}, 'src/hackrf_source.c', 'src/common.c')
 
 fprintf('\nBuilding target ''%s'':\n', 'hackrf_sink.c');
-mex(options{:}, 'src/hackrf_sink.c', 'src/common.c')
+mex(options{:},options_pthread{:}, 'src/hackrf_sink.c', 'src/common.c')
+
+fprintf('\nBuilding target ''%s'':\n', 'hackrf_dev.c');
+mex(options{:},options_pthread{:}, 'src/hackrf_dev.c', 'src/common.c')
 
 warning('on', 'MATLAB:mex:GccVersion_link');
 
