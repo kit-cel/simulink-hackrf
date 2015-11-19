@@ -160,7 +160,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 		_rxvga[device_index] = 0;
 		_txvga[device_index] = 0;
 		_buf_lengths[device_index] = 1;
-
+		_amp[device_index]=0;
 		mexPrintf("hackrf_close() done\n");
 
 	}
@@ -203,6 +203,8 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 				mexErrMsgTxt(errmsg);
 				return;
 			}
+			
+			hackrf_device_list_free(list);
 #else
 			ret = hackrf_open(&_devices[device_index]);
 			if (ret != HACKRF_SUCCESS) {
@@ -271,6 +273,8 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 			mexErrMsgTxt(errmsg);
 			return;
 		}
+		
+		hackrf_device_list_free(list);
 #else
 		ret = hackrf_open(&_devices[device_index]);
 		if (ret != HACKRF_SUCCESS) {
@@ -457,7 +461,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 				mexErrMsgTxt(errmsg);
 			}
 
-
+			free(cb_data);
 
 		}
 		/*device tx*/
@@ -504,6 +508,8 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 				sprintf(errmsg, "hackrf_close() failed: %s (%d)\n", hackrf_error_name(ret), ret);
 				mexErrMsgTxt(errmsg);
 			}
+			
+			free(cb_data);
 		}
 	}
 

@@ -25,10 +25,20 @@ add_hackrf_mex_library(hackrf_sink "")
 
 add_hackrf_mex_library(hackrf_find_devices "-DSIMULINK_HACKRF_VERSION=${PROJECT_VERSION}")
 
+add_hackrf_mex_library(hackrf_dev "")
+
 add_custom_command(
     TARGET hackrf_find_devices POST_BUILD
     COMMAND ${CMAKE_COMMAND}
     ARGS -E copy ${CMAKE_CURRENT_SOURCE_DIR}/hackrf_find_devices.m ${CMAKE_BINARY_DIR}
 )
 
+add_custom_command(
+    TARGET hackrf_dev POST_BUILD
+    COMMAND ${CMAKE_COMMAND}
+    ARGS -E copy ${CMAKE_CURRENT_SOURCE_DIR}/hackrf_dev.m ${CMAKE_BINARY_DIR}
+)
+
 install(FILES ${CMAKE_BINARY_DIR}/hackrf_find_devices.m DESTINATION ${INSTALL_DESTINATION})
+
+install(FILES ${CMAKE_BINARY_DIR}/hackrf_dev.m DESTINATION ${INSTALL_DESTINATION})
