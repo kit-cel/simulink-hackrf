@@ -17,10 +17,8 @@
 * Boston, MA 02110-1301, USA.
 */
 
-/* Simulink */
+#include <string.h>
 #include "mex.h"
-
-/* HackRF includes */
 #include "hackrf.h"
 
 #define HACKRF_RX_VGA_MAX_DB 62
@@ -97,15 +95,15 @@ int rx_callback(hackrf_transfer * transfer) {
 	int buf_length = cb_data->buf_length;
 	char *buf = (char *)transfer->buffer;
 	size_t bytes_to_write = (transfer->valid_length >> 1);
+	int i;
 
 	if ((cb_data->index + bytes_to_write) > buf_length) {
 		bytes_to_write = buf_length - cb_data->index;
 	}
 
-	for (int i = 0; i < bytes_to_write; i++) {
+	for (i = 0; i < bytes_to_write; i++) {
 		cb_data->outr[i + cb_data->index] = (double)(buf[i*2] / 127.0f);
 		cb_data->outi[i + cb_data->index] = (double)(buf[i*2 + 1] / 127.0f);
-
 	}
 	cb_data->index += bytes_to_write;
 	if (cb_data->index >= buf_length) {
@@ -121,16 +119,16 @@ int tx_callback(hackrf_transfer * transfer) {
 	int buf_length = cb_data->buf_length;
 	char *buf = (char *)transfer->buffer;
 	size_t bytes_to_read = transfer->valid_length >> 1;
+	int i;
 
 	if ((cb_data->index + bytes_to_read) > buf_length) {
 		bytes_to_read = buf_length - cb_data->index;
 		memset(transfer->buffer, 0, transfer->valid_length);
 	}
 
-	for (int i = 0; i < bytes_to_read; i++) {
+	for (i = 0; i < bytes_to_read; i++) {
 		buf[i*2] = (char)(cb_data->outr[i + cb_data->index] * 127.0);
 		buf[i*2+ 1] = (char)(cb_data->outi[i + cb_data->index] * 127.0);
-
 	}
 	cb_data->index += bytes_to_read;
 	if (cb_data->index >= buf_length) {
@@ -145,7 +143,6 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 	char errmsg[250];
 
 	/* close device */
-
 	if (nlhs == 0 && nrhs == 1){
 		CHECK_DEVICE_INDEX(DEVICE_INDEX);
 		/* get device index for input */
@@ -217,7 +214,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 			if (ret != HACKRF_SUCCESS){
 				sprintf(errmsg, "hackrf_close() failed: %s (%d)\n", hackrf_error_name(ret), ret);
 				mexErrMsgTxt(errmsg);
-				//	return;
+				/* return; */
 			}
 
 
@@ -264,7 +261,6 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 		}
 
 #ifdef LIBHACKRF_HAVE_DEVICE_LIST
-
 		hackrf_device_list_t  *list = hackrf_device_list();
 
 		ret = hackrf_device_list_open(list, device_index, &_devices[device_index]);
@@ -471,7 +467,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 			}
 
 			int len = mxGetN(TX_DATA);
-			///* Get pointers to data */
+			/* Get pointers to data */
 			double *outr = (double*)mxGetPr(TX_DATA);
 			double *outi = (double*)mxGetPi(TX_DATA);
 
