@@ -23,7 +23,7 @@
 /* HackRF includes */
 #include "hackrf.h"
 
-#define HACKRF_RX_VGA_MAX_DB 62 
+#define HACKRF_RX_VGA_MAX_DB 62
 #define HACKRF_TX_VGA_MAX_DB 47
 #define HACKRF_RX_LNA_MAX_DB 40
 #define HACKRF_AMP_MAX_DB 14
@@ -203,7 +203,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 				mexErrMsgTxt(errmsg);
 				return;
 			}
-			
+
 			hackrf_device_list_free(list);
 #else
 			ret = hackrf_open(&_devices[device_index]);
@@ -273,7 +273,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 			mexErrMsgTxt(errmsg);
 			return;
 		}
-		
+
 		hackrf_device_list_free(list);
 #else
 		ret = hackrf_open(&_devices[device_index]);
@@ -508,7 +508,7 @@ void mexFunction(int nlhs, mxArray *plhs[], int nrhs, const mxArray *prhs[]) {
 				sprintf(errmsg, "hackrf_close() failed: %s (%d)\n", hackrf_error_name(ret), ret);
 				mexErrMsgTxt(errmsg);
 			}
-			
+
 			free(cb_data);
 		}
 	}
