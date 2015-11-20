@@ -1,7 +1,7 @@
 Simulink-HackRF
 ================
 
-The Simulink-HackRF project is an Open Source Software Package allows interfacing MATLAB Simulink models with a HackRF device in real-time. Simulink-HackRF uses libhackrf to transmit or receive IQ samples. It is thus possible to build a wide variety of signal processing and wireless communication applications directly in Simulink while being able to test them on real hardware at the same time.
+The Simulink-HackRF project is an Open Source Software Package allows interfacing MATLAB Simulink models with a HackRF device in real-time. Simulink-HackRF uses libhackrf to transmit or receive IQ samples. It is thus possible to build a wide variety of signal processing and wireless communication applications directly in Simulink while being able to test them on real hardware at the same time. We also include an m-script level interface to send or receive samples direcly from MATLAB scripts.
 
 ![Spectrum scope demo](demos/hackrf_spectrum_scope_demo.png)
 
@@ -109,7 +109,7 @@ Copyright
 The Simulink-HackRF interface consists of software from several authors. The following table lists all included software packages:
 
 - *Simulink-HackRF*  
-  Authors: Communication Engineering Lab (CEL), Sebastian Koslowski  
+  Authors: Communication Engineering Lab (CEL), Sebastian Koslowski, 姜惟
   License: GNU General Public License  
   Source:  https://github.com/kit-cel/simulink-hackrf
 - *libhackrf* and *hackrf-tools*  
@@ -123,6 +123,7 @@ Contact and Support
 If you have further questions concerning the Simulink-HackRF interface (e.g. the build process) or you've found a bug, please feel free to contact us:
 
 - Sebastian Koslowski <sebastian.koslowski@kit.edu>
+- 姜惟 <jiangwei0402@gmail.com>
 
 
 Change-log
