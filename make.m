@@ -71,6 +71,15 @@ options = [options; varargin'; { ...
     '-outdir'; BIN_DIR; ...
 }];
 
+device_list_marker = 'hackrf_device_list';
+fid = fopen(fullfile(HACKRF_INC_DIR, 'hackrf.h'), 'rt');
+lines = textscan(fid,'%[^\n]'); %reads line by line
+fclose(fid);
+if any(~cellfun(@isempty, strfind(lines{:}, device_list_marker)))
+    fprintf('HackRF multiple device support enabled.\n\n');
+    options = [options; {'-DLIBHACKRF_HAVE_DEVICE_LIST'}];
+end
+
 %% Compile
 if isunix && ~any(ismember(varargin, '-v'))
     warning('off', 'MATLAB:mex:GccVersion_link');
