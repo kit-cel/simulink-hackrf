@@ -21,7 +21,7 @@ function make(varargin)
 %   use "make -v" to get a verbose output
 
 BIN_DIR = fullfile(pwd, 'build');
-VERSION = '1.0.0';
+VERSION = '1.1.0';
 
 %% Configuration
 if ispc

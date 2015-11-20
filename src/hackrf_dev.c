@@ -1,5 +1,5 @@
 /*
-* Copyright 2015 Communications Engineering Lab, KIT
+* Copyright 2015 姜惟 <Cjiangwei0402@gmail.com>
 *
 * This is free software; you can redistribute it and/or modify
 * it under the terms of the GNU General Public License as published by

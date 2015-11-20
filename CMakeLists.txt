@@ -2,7 +2,7 @@ cmake_minimum_required(VERSION 3.0)
 set(CMAKE_MODULE_PATH ${CMAKE_SOURCE_DIR}/cmake/modules ${CMAKE_MODULE_PATH})
 
 ##########################################################################
-project(simulink_hackrf LANGUAGES C VERSION 1.0.0)
+project(simulink_hackrf LANGUAGES C VERSION 1.1.0)
 include("local.cmake" OPTIONAL)  # defs to make IDE happy
 
 if("${PROJECT_SOURCE_DIR}" STREQUAL "${PROJECT_BINARY_DIR}")
