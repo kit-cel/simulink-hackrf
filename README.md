@@ -95,8 +95,8 @@ To double-check, open a MATLAB console:
 
 6. After a refresh, you will find a new Toolbox named "HackRF" in the *Simulink Library Browser*. A simple spectrum scope model and a single-tone transmitter model is located in the directory *demos*. Also, there is MATLAB command ```>> hackrf_find_devices``` which you can use to test your setup.
 
-
-
+video install HackRFOne in matlab on Win8
+[win8](https://www.youtube.com/watch?v=7dtikuo3BSw)
 Known issues / Future plans
 ---------------------------
 
